@@ -65,3 +65,18 @@ cd Pytorch-Land-Cover-UNet
 
 # 필수 라이브러리 설치
 pip install -r requirements.txt
+
+## ⚠️ 한계점 및 향후 개선 방향 (Limitations & Future Work)
+
+본 프로젝트는 SegFormer를 도입하여 기존 대비 획기적인 성능 향상을 이뤄냈으나, 다음과 같은 기술적 한계가 존재합니다.
+
+1.  **미세 경계선 인식의 한계 (Boundary Precision)**
+    * Transformer 기반 모델(SegFormer)의 특성상, 인코더에서 이미지를 다운샘플링(1/4 크기)한 후 다시 복원하는 과정을 거칩니다.
+    * 이 과정에서 **픽셀 단위의 아주 미세한 경계선(Pixel-perfect boundaries)**이나, 매우 작은 객체(Small Objects)의 디테일은 다소 뭉개지거나 부정확할 수 있습니다.
+
+2.  **유사 클래스 간의 모호성 (Spectral Similarity)**
+    * 위성 이미지 특성상 **'나지(Barren)'와 '초지(Range)'**, 또는 **'숲(Forest)'과 '농경지(Agriculture)'**의 색상 및 텍스처가 육안으로도 구분이 어려울 만큼 유사한 경우가 많습니다.
+    * 이러한 경계 지역에서는 모델이 두 클래스를 혼동하여 예측하는 경우가 간혹 발생합니다.
+
+3.  **Noisy Label로 인한 정량적 평가의 한계**
+    * 학습에 사용된 DeepGlobe 데이터셋 자체의 라벨링 오류(Ground Truth Noise)로 인해, 모델이 올바르게 예측했음에도 불구하고 수치상으로는 오답으로 처리되는 경우가 존재합니다. (Visual Comparison 참조)
