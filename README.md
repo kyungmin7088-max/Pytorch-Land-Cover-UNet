@@ -34,7 +34,12 @@
 | Step 1 | U-Net (ResNet-50) | 0.7257 | 베이스라인 모델 |
 
 ### 2. 정성적 평가 (Visual Comparison)
-SegFormer 모델은 **Ground Truth(정답지)가 놓친 좁은 흙길이나 도로까지 정확하게 탐지**해내는 뛰어난 문맥 파악 능력을 보였습니다.
+
+SegFormer 모델은 **잘못된 정답 데이터(Noisy Label)의 한계를 극복**하고, 실제 지형을 정확하게 파악하는 강력한 성능을 입증했습니다.
+
+아래 비교 결과를 보면, **Ground Truth(정답지)에는 라벨링되지 않고 누락된 '건물(Urban)'** 구역이 존재합니다. 기존 모델들은 정답지를 따라가느라 이를 놓쳤으나, **SegFormer 모델(맨 우측)은 이미지의 문맥을 스스로 파악하여 누락된 건물들을 정확하게 탐지(Detection)**해냈습니다.
+
+이는 모델이 단순 학습을 넘어, **데이터의 오류를 보정할 수 있는 수준의 일반화 성능**을 확보했음을 보여줍니다.
 
 ![Model Comparison](assets/model_comparison.png)
 > *(좌측부터: 원본, 정답지, U-Net, DeepLab, SegFormer)* > *정답지(Ground Truth)에는 길이 표시되어 있지 않지만, SegFormer(맨 우측)는 중앙의 흰색 흙길을 정확히 찾아냈습니다.*
