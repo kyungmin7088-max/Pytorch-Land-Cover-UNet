@@ -1,7 +1,6 @@
 # 🛰️ 위성 이미지 기반 자동 토지 피복 지도 생성 시스템 (Satellite Image Land Cover Segmentation)
 
 > **2025-2학기 파이썬기반딥러닝 기말 프로젝트**
-> **팀원:** 20011202 김경민  
 > **최종 성과:** mIoU 0.7853 달성 (SegFormer 모델 적용)
 
 ![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=flat&logo=python&logoColor=white)
