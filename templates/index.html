@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 토지 피복 분석 시스템</title>
+    <style>
+        body {
+            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        h1 { color: #2c3e50; margin-bottom: 10px; }
+        p.subtitle { color: #7f8c8d; margin-bottom: 30px; }
+        
+        /* 업로드 버튼 스타일 */
+        .upload-box {
+            border: 2px dashed #3498db;
+            padding: 40px;
+            border-radius: 10px;
+            background-color: #f8fbff;
+            transition: 0.3s;
+        }
+        .upload-box:hover { background-color: #eaf6ff; }
+        
+        input[type="file"] { margin-bottom: 20px; }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        button:hover { background-color: #2980b9; transform: scale(1.05); }
+
+        /* 결과 화면 스타일 */
+        .result-section {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        .image-card {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .image-card h3 { margin: 10px 0; color: #34495e; }
+        img {
+            max-width: 100%;
+            height: auto;
+            max-height: 400px;
+            border-radius: 5px;
+            border: 1px solid #eee;
+        }
+
+        /* 범례(Legend) 스타일 */
+        .legend-box {
+            margin-top: 30px;
+            padding: 15px;
+            background: #eee;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            margin: 0 10px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+        }
+        .color-dot {
+            width: 15px;
+            height: 15px;
+            display: inline-block;
+            margin-right: 8px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🛰️ 위성 이미지 토지 피복 자동 생성기</h1>
+        <p class="subtitle">SegFormer (MiT-B3) Transformer 모델 기반 초정밀 분석 시스템</p>
+
+        <form method="post" enctype="multipart/form-data" class="upload-box">
+            <h3>분석할 위성 이미지를 선택하세요</h3>
+            <input type="file" name="file" accept="image/*" required>
+            <br>
+            <button type="submit">AI 분석 시작</button>
+        </form>
+
+        {% if original_image and result_image %}
+        <div class="result-section">
+            <div class="image-card">
+                <h3>원본 위성 사진</h3>
+                <img src="{{ url_for('static', filename='uploads/' + original_image) }}" alt="원본">
+            </div>
+            <div class="image-card">
+                <h3>AI 분석 결과 (지도)</h3>
+                <img src="{{ url_for('static', filename='uploads/' + result_image) }}" alt="결과">
+            </div>
+        </div>
+
+        <div class="legend-box">
+            <div class="legend-item"><span class="color-dot" style="background:#00FFFF;"></span>도시/건물</div>
+            <div class="legend-item"><span class="color-dot" style="background:#FFFF00;"></span>농업지</div>
+            <div class="legend-item"><span class="color-dot" style="background:#FF00FF;"></span>초지/관목</div>
+            <div class="legend-item"><span class="color-dot" style="background:#00FF00;"></span>산림(숲)</div>
+            <div class="legend-item"><span class="color-dot" style="background:#0000FF;"></span>수역(물)</div>
+            <div class="legend-item"><span class="color-dot" style="background:#FFFFFF;"></span>나지(땅)</div>
+        </div>
+        {% endif %}
+    </div>
+
+</body>
+</html>
